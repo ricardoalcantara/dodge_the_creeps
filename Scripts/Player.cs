@@ -41,14 +41,17 @@ public class Player : Area2D
         }
 
         var animatedSprite = GetNode("AnimatedSprite") as AnimatedSprite;
+        var trail = GetNode("Trail") as Particles2D;
         if (velocity.Length() > 0)
         {
             velocity = velocity.Normalized() * _speed;
             animatedSprite.Play();
+            trail.Emitting = true;
         }
         else
         {
             animatedSprite.Stop();
+            trail.Emitting = false;
         }
 
         Position += velocity * delta;

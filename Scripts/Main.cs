@@ -14,7 +14,21 @@ public class Main : Node
 
     public override void _Ready()
     {
+        ShowTouchController(false);
         _hud = GetNode("HUD") as HUD;
+    }
+
+    private void ShowTouchController(bool show)
+    {
+        if (OS.HasTouchscreenUiHint() && show)
+        {
+            (GetNode("Controller") as Controller).Show();
+        }
+        else
+        {
+            (GetNode("Controller") as Controller).Hide();
+        }
+
     }
 
     private float RandRand(float min, float max)
@@ -30,6 +44,7 @@ public class Main : Node
         (GetNode("Music") as AudioStreamPlayer).Stop();
         (GetNode("DeathSound") as AudioStreamPlayer).Play();
         
+        ShowTouchController(false);
         scoreTimer.Stop();
         mobTimer.Stop();
 
@@ -46,6 +61,7 @@ public class Main : Node
         (GetNode("Music") as AudioStreamPlayer).Play();
 
         player.Start(startPosition.Position);
+        ShowTouchController(true);
         startTimer.Start();
 
         _hud.UpdateScore(Score);
